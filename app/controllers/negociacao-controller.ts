@@ -1,3 +1,4 @@
+import { DiasDaSemana } from "../enums/dias-da-semana.js";
 import { Negociacao } from "../models/negociacao.js";
 import { Negociacoes } from "../models/negociacoes.js";
 import { MensagemView } from "../views/mensagemView.js";
@@ -20,6 +21,12 @@ export class NegociacaoController {
 
     public adicionar(): void{
         const negociacao = this.criaNegociacao();
+
+        if(!this.ehDiaUltil(negociacao.data)){
+            this.mensagemView.update("Negociações somente em dias ulteis");
+            return
+        }
+
         this.negociacoes.adicionar(negociacao);
         this.atualizaView();
         this.limpaFormulario();
@@ -27,11 +34,16 @@ export class NegociacaoController {
 
     private criaNegociacao(): Negociacao{
         const exp = /-/g;
-        const data = new Date(this._inputData.value.replace(exp, '-'));
+        const data = new Date(this._inputData.value.replace(exp, '/'));
+        console.log(data);
         const valor = parseFloat(this._inputValor.value);
         const quantidade = parseInt(this._inputQuantidade.value);
         
         return new Negociacao(data, quantidade, valor);
+    }
+
+    private ehDiaUltil(date: Date){
+        return date.getDay() > DiasDaSemana.DOMINGO && date.getDay() < DiasDaSemana.SABADO;
     }
 
     private atualizaView():void {

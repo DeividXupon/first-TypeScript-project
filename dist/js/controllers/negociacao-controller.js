@@ -14,22 +14,14 @@ export class NegociacaoController {
         this.negociacaoView.update(this.negociacoes);
     }
     adicionar() {
-        const negociacao = this.criaNegociacao();
+        const negociacao = Negociacao.criaDe(this._inputData.value, this._inputValor.value, this._inputQuantidade.value);
         if (!this.ehDiaUltil(negociacao.data)) {
-            this.mensagemView.update("Negociações somente em dias ulteis");
+            this.mensagemView.update("AVISO!: **Negociações somente em dias ulteis**!!!!!");
             return;
         }
         this.negociacoes.adicionar(negociacao);
         this.atualizaView();
         this.limpaFormulario();
-    }
-    criaNegociacao() {
-        const exp = /-/g;
-        const data = new Date(this._inputData.value.replace(exp, '/'));
-        console.log(data);
-        const valor = parseFloat(this._inputValor.value);
-        const quantidade = parseInt(this._inputQuantidade.value);
-        return new Negociacao(data, quantidade, valor);
     }
     ehDiaUltil(date) {
         return date.getDay() > DiasDaSemana.DOMINGO && date.getDay() < DiasDaSemana.SABADO;

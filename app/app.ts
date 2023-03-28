@@ -3,7 +3,7 @@ import { Negociacao } from "./models/negociacao.js";
 
 const negCon = new NegociacaoController();
 
-const form = document.querySelector('.form');
+const form = <Element> document.querySelector('.form');
 
 form.addEventListener('submit', event => {
     event.preventDefault();

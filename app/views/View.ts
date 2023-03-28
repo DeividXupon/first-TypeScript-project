@@ -3,7 +3,13 @@ export abstract class View<T> {
     protected element:HTMLElement;
 
     constructor(selector: string){
-        this.element = document.querySelector(selector);
+        const elemento = document.querySelector(selector);
+        if(elemento){
+            this.element = <HTMLElement> elemento;
+        }else{
+            throw Error(`o seletor com nome de ${selector} não foi encontrado`)
+        }
+        
     }
 
     public update(model: T):void {

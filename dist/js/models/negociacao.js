@@ -17,4 +17,12 @@ export class Negociacao {
     get soma() {
         return this._valor * this._quantidade;
     }
+    static criaDe(dateString, valorString, quantidadeString) {
+        const exp = /-/g;
+        const data = new Date(dateString.replace(exp, '/'));
+        console.log(data);
+        const valor = parseFloat(valorString);
+        const quantidade = parseInt(quantidadeString);
+        return new Negociacao(data, quantidade, valor);
+    }
 }
